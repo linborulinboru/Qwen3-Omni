@@ -1,0 +1,8 @@
+app/Qwen/
+app/inputs/
+app/outputs/
+app/temp/
+
+__pycache__/
+
+log.txt

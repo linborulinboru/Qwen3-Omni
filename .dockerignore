@@ -1,0 +1,55 @@
+# Git files
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+README.md
+DOCKER_USAGE.md
+QUICK_START.md
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# IDEs
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+log.txt
+logs/
+
+# Model files (mounted separately)
+app/Qwen/
+app/inputs/
+app/outputs/
+app/temp/
+
+# Docker files
+docker-compose.yml
+Dockerfile
+
+# Assets
+assets/
+cookbooks/
+
+# Notebooks
+*.ipynb
