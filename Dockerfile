@@ -61,7 +61,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Install AutoAWQ for AWQ quantization support (8-bit model)
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install autoawq autoawq-kernels
+    pip3 install autoawq autoawq-kernels compressed-tensors
 
 # Install flash-attention 2 (compiled for CUDA 12.8 and sm_120)
 ARG BUNDLE_FLASH_ATTENTION=true
@@ -86,6 +86,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # Clean up pip cache
 RUN rm -rvf /root/.cache/pip
+
+# Final update: Ensure all critical dependencies are up-to-date
+# This step ensures compatibility between transformers, huggingface-hub, and compressed-tensors
+RUN pip3 install --no-cache-dir -U transformers huggingface-hub compressed-tensors
 
 # Set working directory for the application
 WORKDIR /app

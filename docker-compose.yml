@@ -22,12 +22,13 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=0
     command: >
+      bash -c "pip3 install -U transformers huggingface-hub &&
       python3 web_demo_captioner.py
       --use-transformers
       --flash-attn2
       --checkpoint-path /data/models/Qwen3-Omni-30B-A3B-Captioner
       --server-name 0.0.0.0
-      --server-port 8901
+      --server-port 8901"
     deploy:
       resources:
         reservations:
@@ -63,12 +64,13 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=0
     command: >
+      bash -c "pip3 install -U transformers huggingface-hub compressed-tensors &&
       python3 web_captioner_awq.py
       --use-transformers
       --flash-attn2
       --checkpoint-path /data/models/Qwen3-Omni-30B-A3B-Captioner-AWQ-8bit
       --server-name 0.0.0.0
-      --server-port 8901
+      --server-port 8901"
     deploy:
       resources:
         reservations:
@@ -104,12 +106,13 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - CUDA_LAUNCH_BLOCKING=0
     command: >
+      bash -c "pip3 install -U transformers huggingface-hub compressed-tensors &&
       python3 web_demo_awq.py
       --use-transformers
       --flash-attn2
       --checkpoint-path /data/models/Qwen3-Omni-30B-A3B-Instruct-AWQ-8bit
       --server-name 0.0.0.0
-      --server-port 8901
+      --server-port 8901"
     deploy:
       resources:
         reservations:
