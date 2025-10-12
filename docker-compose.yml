@@ -42,3 +42,45 @@ services:
     tty: true
     profiles:
       - captioner
+
+  qwen3-omni-instruct:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: qwen3-omni-app:latest
+    container_name: qwen3-omni-instruct
+    ports:
+      - "8901:8901"
+    volumes:
+      - ./app/Qwen/Qwen3-Omni-30B-A3B-Instruct:/data/models/Qwen3-Omni-30B-A3B-Instruct:ro
+      - ./web_demo_instruct.py:/app/web_demo_instruct.py:ro
+      - ./app/inputs:/app/inputs
+      - ./app/outputs:/app/outputs
+      - ./app/temp:/app/temp
+    working_dir: /app
+    environment:
+      - VLLM_USE_V1=0
+      - VLLM_WORKER_MULTIPROC_METHOD=spawn
+      - CUDA_VISIBLE_DEVICES=0
+      - CUDA_LAUNCH_BLOCKING=0
+    command: >
+      bash -c "pip3 install -U transformers huggingface-hub &&
+      python3 web_demo.py
+      --use-transformers
+      --flash-attn2
+      --checkpoint-path /data/models/Qwen3-Omni-30B-A3B-Instruct
+      --server-name 0.0.0.0
+      --server-port 8901"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    shm_size: '32gb'
+    stdin_open: true
+    tty: true
+    profiles:
+      - instruct
