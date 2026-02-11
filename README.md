@@ -231,12 +231,12 @@ huggingface-cli download Qwen/Qwen3-Omni-30B-A3B-Captioner --local-dir ./Qwen3-O
 
 #### Installation
 
-The Hugging Face Transformers code for Qwen3-Omni has been successfully merged, but the PyPI package has not yet been released. Therefore, you need to install it from source using the following command. We strongly recommend that you **create a new Python environment** or use our [Docker](#-docker) to avoid environment runtime issues.
+The Hugging Face Transformers code for Qwen3-Omni has been successfully merged. We strongly recommend that you **create a new Python environment** or use our [Docker](#-docker) to avoid environment runtime issues.
 
 ```bash
 # If you already have transformers installed, please uninstall it first, or create a new Python environment
 # pip uninstall transformers
-pip install git+https://github.com/huggingface/transformers
+pip install transformers==4.57.3
 pip install accelerate
 ```
 
@@ -486,18 +486,15 @@ Additionally, for more usage details such as prompt settings, task-specific usag
 
 #### Installation
 
-We strongly recommend using vLLM for inference and deployment of the Qwen3-Omni series models. Since our code is currently in the pull request stage, and **audio output inference support for the Instruct model will be released in the near future**, you can follow the commands below to install vLLM from source. Please note that we recommend you **create a new Python environment** or use our provided [Docker](#-docker) to avoid runtime environment conflicts and incompatibilities. For more details on compiling vLLM from source, please refer to the [vLLM official documentation](https://docs.vllm.ai/en/latest/getting_started/installation/gpu.html#set-up-using-python-only-build-without-compilation).
+We highly recommend using the latest vLLM-Omni to experience Qwen3-Omni series models. For more details, please refer to the vLLM-Omni official [offline inference documentation](https://docs.vllm.ai/projects/vllm-omni/en/latest/user_guide/examples/offline_inference/qwen3_omni/) and [online inference documentation](https://docs.vllm.ai/projects/vllm-omni/en/latest/user_guide/examples/online_serving/qwen3_omni/).
+
+We also recommend using vLLM for inference and deployment of the Qwen3-Omni series models. Please note that we recommend you **create a new Python environment** or use our provided [Docker](#-docker) to avoid runtime environment conflicts and incompatibilities. 
 
 ```bash
-git clone -b qwen3_omni https://github.com/wangxiongts/vllm.git
-cd vllm
-pip install -r requirements/build.txt
-pip install -r requirements/cuda.txt
-export VLLM_PRECOMPILED_WHEEL_LOCATION=https://wheels.vllm.ai/a5dd03c1ebc5e4f56f3c9d3dc0436e9c582c978f/vllm-0.9.2-cp38-abi3-manylinux1_x86_64.whl
-VLLM_USE_PRECOMPILED=1 pip install -e . -v --no-build-isolation
+pip install vllm==0.13.0
 # If you meet an "Undefined symbol" error while using VLLM_USE_PRECOMPILED=1, please use "pip install -e . -v" to build from source.
 # Install the Transformers
-pip install git+https://github.com/huggingface/transformers
+pip install transformers==4.57.3
 pip install accelerate
 pip install qwen-omni-utils -U
 pip install -U flash-attn --no-build-isolation
@@ -516,9 +513,6 @@ from transformers import Qwen3OmniMoeProcessor
 from qwen_omni_utils import process_mm_info
 
 if __name__ == '__main__':
-    # vLLM engine v1 not supported yet
-    os.environ['VLLM_USE_V1'] = '0'
-
     MODEL_PATH = "Qwen/Qwen3-Omni-30B-A3B-Instruct"
     # MODEL_PATH = "Qwen/Qwen3-Omni-30B-A3B-Thinking"
 
@@ -617,9 +611,6 @@ def build_input(processor, messages, use_audio_in_video):
     return inputs
 
 if __name__ == '__main__':
-    # vLLM engine v1 not supported yet
-    os.environ['VLLM_USE_V1'] = '0'
-
     MODEL_PATH = "Qwen/Qwen3-Omni-30B-A3B-Instruct"
     # MODEL_PATH = "Qwen/Qwen3-Omni-30B-A3B-Thinking"
 
